@@ -8,11 +8,11 @@ import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 import "usingtellor/contracts/UsingTellor.sol";
 import {LifeInsuranceToken} from "./LifeInsuranceToken.sol";
 
-/// @title A very simple lottery contract
-/// @author Matheus Pagani
-/// @notice You can use this contract for running a very simple lottery
-/// @dev This contract implements a relatively weak randomness source, since there is no cliff period between the randao reveal and the actual usage in this contract
-/// @custom:teaching This is a contract meant for teaching only
+/// @title life insurance contract
+/// @author group 1 Encode bootcamp
+/// @notice 
+/// @dev 
+
 contract LifeInsurance is Ownable, UsingTellor {
     /// @notice Address of the token used as payment for the bets
     LifeInsuranceToken public paymentToken;
