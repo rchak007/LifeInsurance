@@ -38,8 +38,8 @@ const MAXUINT256 =
 let contractAddress: Address;
 let tokenAddress: Address;
 
-const LifeInsuranceContract = "0xe4c90d037a74b29e0b9d8162ae0bebf045970460";
-const LifeInsuranceTokenContract = "0x3F7822Ce3e9040f552e4Aec2730A46C5182c4AAb";
+const LifeInsuranceContract = "0x00886f4304111ff03e9739c7039c0d23f727d388";
+const LifeInsuranceTokenContract = "0x337F05A17846734BBD45Fb712Dd4a5E8916E216f";
 
 const BET_PRICE = "1";
 const BET_FEE = "0.2";
@@ -68,7 +68,7 @@ async function main() {
   console.log(
     "Deployer balance:",
     formatEther(balance),
-    deployer.chain.nativeCurrency.symbol,
+    deployer.chain.nativeCurrency.symbol
   );
 
   const account2 = privateKeyToAccount(`0x${acc2PrivateKey}`);
@@ -77,8 +77,24 @@ async function main() {
     chain: sepolia,
     transport: http(`https://eth-sepolia.g.alchemy.com/v2/${providerApiKey}`),
   });
+  const account3 = privateKeyToAccount(`0x${acc2PrivateKey}`);
+  const acc3 = createWalletClient({
+    account: account3,
+    chain: sepolia,
+    transport: http(`https://eth-sepolia.g.alchemy.com/v2/${providerApiKey}`),
+  });
 
-  // await purchaseTokens(acc2, account2, publicClient, 2500000000n);
+  const account4 = privateKeyToAccount(`0x${acc2PrivateKey}`);
+  const acc4 = createWalletClient({
+    account: account4,
+    chain: sepolia,
+    transport: http(`https://eth-sepolia.g.alchemy.com/v2/${providerApiKey}`),
+  });
+
+  // open this to purchase tokens
+  // await purchaseTokens(acc2, account2, publicClient, 250000000000n); // ETH =  0.00000025
+  // await purchaseTokens(acc3, account3, publicClient, 10000000000000000n); // ETH = 0.1
+  await purchaseTokens(acc4, account4, publicClient, 250000000000n); // ETH = 0.1
 
   // await initContracts();
   await checkState(publicClient);
@@ -93,19 +109,19 @@ async function getClient() {
 }
 
 async function purchaseTokens(
-  acc2: any,
-  account2: any,
+  acc: any,
+  account: any,
   publicClient: any,
-  amount: bigint,
+  amount: bigint
 ) {
   // Purchase Tokens
-  const hash = await acc2.writeContract({
+  const hash = await acc.writeContract({
     address: LifeInsuranceContract,
     abi: abiLI,
     functionName: "purchaseTokens",
     // args: [acc2.account.address],
     // account: voterAccount,
-    account: account2,
+    account: account,
     value: amount,
   });
   console.log("Transaction hash:", hash);
@@ -115,12 +131,16 @@ async function purchaseTokens(
 }
 
 async function checkState(publicClient: any) {
-  const tokenContract = await viem.getContractAt(
+  const lifeContract = await viem.getContractAt(
     "LifeInsurance",
-    LifeInsuranceContract,
+    LifeInsuranceContract
   );
-  const paymentTokenAddress = await tokenContract.read.paymentToken();
-  console.log("Token address = ", paymentTokenAddress);
+  const paymentTokenAddress = await lifeContract.read.paymentToken();
+  console.log("Life Insurance Token address = ", paymentTokenAddress);
+
+  const threshold = await lifeContract.read.THRESHOLD();
+  console.log("Life Insurance threshold = ", threshold);
+  console.log("Life Insurance threshold in ETH= ", formatEther(threshold));
 
   // Get the balance of the contract
   // const balance = await ethers.provider.getBalance(LifeInsuranceContract);
@@ -130,6 +150,15 @@ async function checkState(publicClient: any) {
     address: LifeInsuranceContract,
   });
   console.log("Balance of LifeInsurance address = ", balance);
+  console.log(
+    "Balance of LifeInsurance address in ETH = ",
+    formatEther(balance)
+  );
+  if (balance < threshold) {
+    console.log("Balance is LESS than Threshold");
+  } else {
+    console.log("Balance is MORE than Threshold");
+  }
 
   // const publicClient = await getClient();
   // const currentBlock = await publicClient.getBlock();
@@ -165,7 +194,7 @@ async function displayBalance(index: string) {
   console.log(
     `The account of address ${
       accounts[Number(index)].account.address
-    } has ${balance} ETH\n`,
+    } has ${balance} ETH\n`
   );
 }
 
@@ -191,7 +220,7 @@ async function displayTokenBalance(index: string) {
   console.log(
     `The account of address ${
       accounts[Number(index)].account.address
-    } has ${balance} LT0\n`,
+    } has ${balance} LT0\n`
   );
 }
 
@@ -229,7 +258,7 @@ async function displayPrize(index: string): Promise<string> {
   console.log(
     `The account of address ${
       accounts[Number(index)].account.address
-    } has earned a prize of ${prize} Tokens\n`,
+    } has earned a prize of ${prize} Tokens\n`
   );
   return prize;
 }

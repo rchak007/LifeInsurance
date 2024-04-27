@@ -38,7 +38,7 @@ contract LifeInsurance is Ownable, UsingTellor {
         uint fitnessScore;
     }
 
-    uint256 public constant THRESHOLD = 1 ether;
+    uint256 public constant THRESHOLD = 10000000000000000;
     
     uint256 public commissionRate = 1; // 1% commission rate    
 
@@ -237,7 +237,11 @@ contract LifeInsurance is Ownable, UsingTellor {
 
     function purchaseTokens() external payable {
         require(msg.value > 0, "Must send ETH to purchase tokens");
-        require(address(this).balance < THRESHOLD, "once threshold is reached no more investors can add ETH");
+        uint256 balanceBefore = 0;
+        if (address(this).balance > 0)  {
+            balanceBefore = address(this).balance - msg.value;
+            require(balanceBefore < THRESHOLD , "once threshold is reached no more investors can add ETH");
+        } 
         
         // // Calculate the new balance after adding the current transaction's value
         // uint256 newBalance = address(this).balance + msg.value;
