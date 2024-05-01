@@ -35,16 +35,26 @@ The contract is robust, with modular features for scalability and updates, aimin
 
 
 
+[LifeInsurance Smart contract code - LifeInsurance.sol](https://github.com/rchak007/LifeInsurance/blob/main/Backend/contracts/LifeInsurance.sol)
 
 
-## Deployment Script for Life Insurance Contract
+
+
+
+
+
+
+
+
+
+# Backend scripts
+
+
 
 This Hardhat deployment script utilizes the Viem library to interact with Ethereum networks, specifically targeting the Sepolia testnet. The script configures environmental variables and imports contract ABIs and bytecode for both the `LifeInsurance` and `LifeInsuranceToken` contracts.
 
-**Key Processes:**
+* **Environment Setup**: Loads environment variables including private keys and Alchemy API key using the `dotenv` library.
 
-- **Environment Setup**: Loads environment variables including private keys and Alchemy API key using the `dotenv` library.
-- **Contract Deployment**: Deploys `LifeInsurance` contract with parameters including the token name, symbol, and the predefined token ratio. It also specifies the oracle address for Sepolia.
 - **Client and Wallet Integration**: Utilizes Viem’s utilities to create public and wallet clients, allowing transactions to be sent from specified accounts.
 - **Logging**: Outputs deployed contract addresses to the console, helping users verify the deployment and track deployed contracts.
 
@@ -52,36 +62,42 @@ The script is designed to be robust and adaptable, ensuring that the contracts a
 
 
 
+## Deployment Script for Life Insurance Contract
 
+[deployLifeInsurance.ts](https://github.com/rchak007/LifeInsurance/blob/main/Backend/scripts/deployLifeInsurance.ts)
 
+**Key Processes:**
 
+- **Contract Deployment**: Deploys `LifeInsurance` contract with parameters including the token name, symbol, and the predefined token ratio. It also specifies the oracle address for Sepolia.
 
 
 
 ## Contract State Reading Script for Life Insurance
 
-This Hardhat script is crafted to interact with the Life Insurance smart contract and its associated token contract to fetch and display various states and values. It is configured to operate on the Sepolia testnet, leveraging the Viem library for streamlined Ethereum network interactions.
+[LifeInsuranceState.ts](https://github.com/rchak007/LifeInsurance/blob/main/Backend/scripts/LifeInsuranceState.ts)
+
+
+
+This Hardhat script is crafted to interact with the Life Insurance smart contract and its associated token contract to fetch and display various states and values. 
 
 **Main Functions of the Script:**
 
-- **Configuration and Environment Setup**: Initializes environment variables and sets up Viem clients using private keys and an Alchemy API key.
 - **State Queries**: Connects to the deployed Life Insurance contract to read various parameters such as the payment token address, insurance thresholds, commission rates, and test values used for simulations.
+
 - **Policy and Token Info Retrieval**: Retrieves detailed information on token holdings for specific accounts and the details of insurance policies held by these accounts, including coverage and holder-specific data.
-- **Logging and Display**: Outputs relevant information directly to the console, making it easy to audit the state and balances associated with the contract and its participants.
 
-This script provides essential tools for developers and auditors to interact with and monitor the deployed contract, ensuring transparency and accessibility of contract data.
-
-
+  
 
 
 
 ## Token Purchase Script for Life Insurance Investors
 
-This Hardhat script facilitates the process of purchasing tokens from the Life Insurance contract, designed to run on the Sepolia testnet. It uses the Viem library to manage Ethereum network interactions and transactions efficiently.
+[LifeInsurancePurchaseTokens.ts](https://github.com/rchak007/LifeInsurance/blob/main/Backend/scripts/LifeInsurancePurchaseTokens.ts)
+
+This Hardhat script facilitates the process of purchasing tokens from the Life Insurance contract.
 
 **Script Capabilities:**
 
-- **Setup and Configuration**: Establishes connections using environment variables for API keys and private keys, setting up wallet clients for multiple accounts.
 - **Token Purchase Functionality**: Allows specified accounts to purchase tokens by calling the `purchaseTokens` function of the Life Insurance contract. The script handles transactions and awaits confirmations, ensuring successful execution.
 - **Transaction Management**: Outputs transaction hashes and confirmation statuses, providing real-time feedback on the purchase process.
 
@@ -95,13 +111,15 @@ This script is crucial for enabling investors to participate in the Life Insuran
 
 ## Policy Creation Script for Life Insurance
 
+[LifeInsurancePolicy.ts](https://github.com/rchak007/LifeInsurance/blob/main/Backend/scripts/LifeInsurancePolicy.ts)
+
 This Hardhat script is designed to facilitate the creation of insurance policies using the Life Insurance smart contract deployed on the Sepolia testnet. Utilizing the Viem library, the script enables direct and efficient interactions with the Ethereum blockchain.
 
 **Functional Overview:**
 
-- **Setup and Environment Configuration**: Initializes necessary configurations using environmental variables, sets up wallet clients for the accounts involved, and connects to the blockchain using an Alchemy API endpoint.
 - **Policy Creation**: Allows specific accounts to create new insurance policies by specifying details such as coverage amount, age of the insured, smoking status, and fitness level. These details are passed to the `createPolicy` function of the Life Insurance contract.
-- **Transaction Handling**: Manages blockchain transactions, ensuring that policies are created successfully. It logs transaction hashes and waits for confirmations to confirm the successful execution of policy creation.
+
+  
 
 This script is critical for onboarding new policyholders onto the Life Insurance platform, offering a streamlined and automated
 
@@ -111,13 +129,15 @@ This script is critical for onboarding new policyholders onto the Life Insurance
 
 ## Premium Payment Script for Life Insurance
 
+[LifeInsurancePayPremium.ts](https://github.com/rchak007/LifeInsurance/blob/main/Backend/scripts/LifeInsurancePayPremium.ts)
+
 This Hardhat script enables policyholders to pay their insurance premiums through the Life Insurance smart contract on the Sepolia testnet. It uses the Viem library for efficient blockchain interactions, ensuring the premiums are processed securely and efficiently.
 
 **Script Features:**
 
-- **Setup and Environment Configuration**: Sets up the environment by loading necessary configurations and establishing connections with the Ethereum network through specified API keys and wallet clients.
 - **Premium Payment Execution**: Facilitates premium payments by sending the required ETH amount to the Life Insurance contract. It specifies the policyholder’s account and the premium amount to be transferred.
-- **Transaction Management**: Manages the transaction details, logs the transaction hash, and monitors the blockchain for confirmation to ensure the premium payment is successfully recorded.
+
+  
 
 This script is crucial for maintaining the regular operation of insurance policies, allowing policyholders to fulfill their premium obligations smoothly and reliably.
 
@@ -127,29 +147,31 @@ This script is crucial for maintaining the regular operation of insurance polici
 
 ## Insurance Claim Script for Life Insurance
 
+[LifeInsuranceClaim.ts](https://github.com/rchak007/LifeInsurance/blob/main/Backend/scripts/LifeInsuranceClaim.ts)
+
 This Hardhat script is designed for policyholders to initiate and process claims through the Life Insurance contract deployed on the Sepolia testnet. Leveraging the Viem library, it ensures seamless and secure interactions with the Ethereum blockchain.
 
 **Features of the Script:**
 
-- **Environment Setup and Configuration**: Initializes connections and configures wallet clients for multiple accounts using environmental variables and API keys.
 - **Claim Execution**: Enables policyholders to initiate a claim by calling the `claim` function of the Life Insurance contract. It manages the process of sending the transaction and waiting for its confirmation.
-- **Transaction Monitoring**: Provides real-time feedback on the transaction process, including logging transaction hashes and confirming transaction completion.
+
+  
 
 This script plays a crucial role in allowing policyholders to exercise their contract rights to claim their insured amounts under specified conditions, thereby ensuring the functionality and reliability of the insurance service.
 
 
 
-
-
 ## Commission Claim Script for Life Insurance Investors
+
+[LifeInsuranceClaimCommission.ts](https://github.com/rchak007/LifeInsurance/blob/main/Backend/scripts/LifeInsuranceClaimCommission.ts)
 
 This Hardhat script enables investors to claim their entitled commissions from the Life Insurance smart contract deployed on the Sepolia testnet. Utilizing the capabilities of the Viem library, this script ensures that the commission claiming process is efficient and secure.
 
 **Script Details:**
 
-- **Setup and Configuration**: The script initializes connections using environment variables and sets up wallet clients for investors using their private keys. It connects to the Ethereum network through an Alchemy API endpoint.
 - **Commission Claiming**: Allows investors to initiate the commission claiming process by calling the `claimCommission` function on the Life Insurance contract. The function does not require arguments, simplifying the transaction initiation.
-- **Transaction Management**: Manages the commission claim transactions, including logging the transaction hash and monitoring the blockchain for confirmation of transaction success.
+
+  
 
 This script is essential for ensuring that investors can retrieve their commissions based on their contributions and participation in the insurance ecosystem, reinforcing the investment incentive structure of the platform.
 
@@ -159,15 +181,21 @@ This script is essential for ensuring that investors can retrieve their commissi
 
 ## Set Death Value for Testing Script
 
-This Hardhat script is designed to set a death value in the Life Insurance smart contract for testing purposes. It operates on the Sepolia testnet, utilizing the Viem library to manage interactions with the Ethereum blockchain efficiently.
+[LifeInsuranceSetDeath.ts](https://github.com/rchak007/LifeInsurance/blob/main/Backend/scripts/LifeInsuranceSetDeath.ts)
+
+This Hardhat script is designed to set a death value in the Life Insurance smart contract for testing purposes. 
 
 **Script Features:**
 
-- **Environment Setup and Configuration**: The script initializes necessary connections using environmental variables and configures wallet clients for the accounts involved, connecting to the Ethereum network through an Alchemy API endpoint.
 - **Setting Death Value**: Enables testers to simulate the death of a policyholder by setting a specific death value in the contract. This function is crucial for testing the claim process under controlled conditions.
-- **Transaction Management**: Manages the process of sending the transaction, logging the transaction hash, and monitoring for confirmation to ensure the test setting is successfully applied.
+
+  
 
 This script is essential for developers and testers to verify and ensure that the claim functionalities of the insurance contract work as expected under simulated conditions.
+
+
+
+
 
 
 
@@ -414,6 +442,38 @@ Transaction confirmed
 ![image-20240430233614734](./Images/image-20240430233614734.png)
 
 
+
+
+
+#### Oracle result
+
+```typescript
+	function claim() public whenLifeInsuranceIsReady {
+		Policy storage policy = policies[msg.sender];
+		require(policy.isActive, "Policy is not active");
+		// Additional claim logic here
+		// call oracle here - for now btc spot price
+		uint maxTime = 360 * 60 * 24 * 90;
+		uint oracleResult = (getBtcSpotPrice(maxTime)) % 2; // for now randomize it
+		emit OracleResult(oracleResult);  // Emit the event logging the oracle result
+		if (deathTestValue > 0) {
+			// test purpose
+			oracleResult = 1;
+		}
+		require(oracleResult > 0, "Can claim only if died");
+		// now pay their coverage amount
+		require((address(this).balance >= (policy.coverageAmount + commissionCollectedTotal)  ), "not enough to claim");
+		payable(msg.sender).transfer(policy.coverageAmount);
+		policy.isActive = false; // set it to false now
+	
+	}
+```
+
+
+
+#### 
+
+![image-20240501092945322](./Images/image-20240501092945322.png)
 
 
 
